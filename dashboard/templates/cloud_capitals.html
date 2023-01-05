@@ -1,0 +1,67 @@
+﻿{% extends 'base.html' %}
+{% block body %}
+
+
+    <div class="ibox-content">
+        <div class="row m-b-sm m-t-sm">
+            <div class="col-md-11">
+                <div class="input-group">
+                    <input type="text" placeholder="搜索" class="input-sm form-control"> <span class="input-group-btn"><button
+                        type="button" class="btn btn-sm btn-primary">搜索</button>
+                       </span>
+                    <div>&nbsp;</div>
+                    <div class="">
+                        <a href="cloud_create.html" class="btn btn-sm btn-primary">创建新项目</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ibox-content">
+        <table class="footable table table-stripped toggle-arrow-tiny">
+            <thead>
+            <tr>
+                <th data-toggle="true">业务类型</th>
+                <th>成本归属</th>
+                <th>登陆方式</th>
+                <th data-hide="all">云归属</th>
+                <th data-hide="all">地域</th>
+                <th data-hide="all">实例ID</th>
+                <th data-hide="all">内网IP</th>
+                <th data-hide="all">外网IP</th>
+                <th data-hide="all">责任人</th>
+                <th data-hide="all">环境</th>
+                <th data-hide="all">公有云版本</th>
+                <th data-hide="all">项目区域</th>
+                <th data-hide="all">项目编号</th>
+                <th data-hide="all">项目名称</th>
+                <th data-hide="all">项目区域</th>
+                <th data-hide="all">月成本</th>
+                <th data-hide="all">公有云实例名</th>
+                <th data-hide="all">创建时间</th>
+                <th data-hide="all">到期时间</th>
+                <th data-hide="all">临时备注</th>
+                <th data-hide="all">详细备注</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>项目例子1</td>
+                <td>高达</td>
+                <td>86 1234 5678</td>
+                <td>乐高公司</td>
+                <td><span class="pie">0.52/1.561</span></td>
+                <td>20%</td>
+                <td>2017年12月12日</td>
+                <td><a href="#"><i class="fa fa-check text-navy"></i></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+</body>
+
+</html>
