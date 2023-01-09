@@ -31,24 +31,22 @@
 
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav mr-auto">
-                    <li class="active">
-                        <a aria-expanded="false" role="button" href="http://127.0.0.1:8000/index"> 主页 </a>
+                    <li class="">
+                        <a aria-expanded="false" role="button" href="{% url 'index' %}"> 主页 </a>
                     </li>
 
                     <li class="dropdown">
                         <a aria-expanded="false" role="button" href="" class="dropdown-toggle" data-toggle="dropdown"> 系统管理</a>
                         <ul role="menu" class="dropdown-menu">
-                            <li><a href="http://127.0.0.1:8000/users/list">用户管理</a></li>
-                            <li><a href="">权限管理</a></li>
-                            <li><a href="">用户组管理</a></li>
+                            <li><a href="{% url 'user_list' %}">用户管理</a></li>
+                            <li><a href="{% url 'ssh_list' %}">SSH用户管理</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
                         <a aria-expanded="false" role="button" href="" class="dropdown-toggle" data-toggle="dropdown"> 云资产管理</a>
                         <ul role="menu" class="dropdown-menu">
-                            <li><a href="http://127.0.0.1:8000/cloud_capitals">云管理</a></li>
-                            <li><a href="">服务器管理</a></li>
-                            <li><a href="">区域管理</a></li>
+                            <li><a href={% url 'cloud_cap_list' %}>云管理</a></li>
+                            <li><a href={% url 'cloud_servers_list' %}>服务器管理</a></li>
                             <li><a href="">数据库管理</a></li>
                         </ul>
                     </li>
@@ -60,7 +58,7 @@
                             <li><a href="">网络</a></li>
                         </ul>
                     </li>
-                    <li class="active">
+                    <li class="">
                         <a aria-expanded="false" role="button" href="http://127.0.0.1:8000/index"> 操作记录 </a>
                     </li>
 

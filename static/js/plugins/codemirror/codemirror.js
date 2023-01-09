@@ -342,7 +342,7 @@
     cm.display.scrollbarH.style.left = cm.options.fixedGutter ? width + "px" : 0;
   }
 
-  // Compute the character length of a line, taking into account
+  // Compute the character length of a line, taking into system
   // collapsed ranges (see markText) that might hide parts, and join
   // other lines onto it.
   function lineLength(line) {
@@ -6067,7 +6067,7 @@
   }
 
   // Outputs a number of spans to make up a line, taking highlighting
-  // and marked text into account.
+  // and marked text into system.
   function insertLineContent(line, builder, styles) {
     var spans = line.markedSpans, allText = line.text, at = 0;
     if (!spans) {
@@ -7207,7 +7207,7 @@
     this.id = setTimeout(f, ms);
   };
 
-  // Counts the column offset in a string, taking tabs into account.
+  // Counts the column offset in a string, taking tabs into system.
   // Used mostly to find indentation.
   var countColumn = CodeMirror.countColumn = function(string, end, tabSize, startIndex, startValue) {
     if (end == null) {
@@ -7784,7 +7784,7 @@
       // Here we depart from the documented algorithm, in order to avoid
       // building up an actual levels array. Since there are only three
       // levels (0, 1, 2) in an implementation that doesn't take
-      // explicit embedding into account, we can build up the order on
+      // explicit embedding into system, we can build up the order on
       // the fly, without following the level-based algorithm.
       var order = [], m;
       for (var i = 0; i < len;) {

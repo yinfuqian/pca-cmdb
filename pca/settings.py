@@ -25,13 +25,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'serializers',
     'django_filters',
     'pca',
     'dashboard',
     'cloud_capitals',
-    'hardware_capitals',
-    'account'
+    'system'
 ]
 
 MIDDLEWARE = [
@@ -71,7 +69,9 @@ DATABASES = {
         'HOST': '172.16.20.153',
         'PORT': '3306',
         'OPTIONS': {
-            'charset': 'utf8mb4'}
+            'charset': 'utf8mb4',
+            'init_command': "SET sql_mode = 'STRICT_TRANS_TABLES'"
+        }
     },
 }
 

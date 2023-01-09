@@ -359,7 +359,7 @@
                             // Check the next block - it might be code too
                             if ( !next[0].match( re ) ) break block_search;
 
-                            // Pull how how many blanks lines follow - minus two to account for .join
+                            // Pull how how many blanks lines follow - minus two to system for .join
                             ret.push ( block.trailing.replace(/[^\n]/g, '').substring(2) );
 
                             block = next.shift();

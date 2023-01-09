@@ -8,8 +8,6 @@ class IndexView(TemplateView):
     template_name = 'index.html'
     # def get(self, request):
     #     return render(request, 'index.html')
-
-
 class LoginView(TemplateView):
 
 

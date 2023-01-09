@@ -6,10 +6,12 @@
     <div class="col-lg-12">
         <div class="ibox ">
             <div class="ibox-title">
-                <h5>更新用户</h5>
+                <h5>更新用户: {{ user_obj.username }}</h5>
             </div>
             <form class="form-horizontal" id="submit_form">
                 {% csrf_token %}
+                <div ><input type="text" style="display: none" name="id"
+                                                  value="{{ user_obj.id }}"></div>
                 <div class="form-group  row"><label class="col-sm-2 col-form-label">用户名</label>
                     <div class="col-sm-10"><input type="text" class="form-control" name="username"
                                                   value="{{ user_obj.username }}"></div>
@@ -104,7 +106,7 @@
                             location.href = "{% url 'user_list' %}"
                         } else {
                             alert('更新失败')
-                            location.href = "{% url 'user_update' %}"
+                            location.href = "{% url 'user_list' %}"
                         }
                     })
                 }

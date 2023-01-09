@@ -56,11 +56,10 @@
                 {% endif %}
                 <td class="text-center">{{ info.last_login }}</td>
                 <td class="text-center">
-                    {#                        <a type="button" class="btn btn-primary btn-sm" href="{% url 'user_edit' %}?id={{ info.id }}">更新</a>#}
-                    {#                        <a type="button" class="btn btn-danger btn-sm" href="{% url 'user_delete' %}?id={{ info.id }}">删除</a>#}
-                    {#                        <a type="button" class="btn btn-success btn-sm" href="{% url 'user_success' %}?id={{ info.id }}">启用</a>#}
-                    {#                        <a type="button" class="btn btn-warning btn-sm" href="{% url 'user_edit' %}?id={{ info.id }}">禁用</a>#}
-                    <a type="button" class="btn-primary btn-sm" href="{% url 'user_update' %}?id={{ info.id }}"> 更新 </a>
+                    <a type="button" class="btn btn-success btn-sm" onclick="user_status({{ info.id }})">启用</a>
+                    <a type="button" class="btn btn-warning btn-sm" onclick="user_status({{ info.id }})">禁用</a>
+                    <a type="button" class="btn-primary btn-sm" href="{% url 'user_update' %}?id={{ info.id }}">
+                        更新 </a>
                     <a type="button" class="btn btn-danger btn-sm" onclick="user_delete({{ info.id }})"> 删除 </a>
                 </td>
             {% endfor %}
@@ -112,15 +111,20 @@
         }
 
     </script>
-{#    <script src="/static/js/sorttable.js"></script>#}
-{#    <script>#}
-{#    $(function () {#}
-{#        $("#Users").tablesort();#}
-{#        $('thead th.number').data('sortBy', function (th, td, sorter) {#}
-{#            return parseInt(td.text(),10)#}
-{#        })#}
-{##}
-{#    })#}
-{#    </script>#}
+    <script>
+        function user_status(id) {
+            $.get("{% url 'user_status' %}?id=" + id, function (data) {
+                    if (data.status == 0) {
+                        alert("更新成功")
+                        location.href = "{% url 'user_list' %}"}
+                    else
+                        {
+                            alert("更新失败")
+                            location.href = "{% url 'user_list' %}"
+                        }
+                }
+            )
+        }
+    </script>
 {% endblock %}
 

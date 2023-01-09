@@ -56,7 +56,6 @@
             rules: {
                 username: {
                     required: true,
-                    minlength: 4
                 },
                 password: {
                     required: true,
@@ -72,7 +71,7 @@
                         location.href = "{% url 'index' %}"
                     } else {
                         alert('用户密码错误 登录失败')
-                        location.href = "{% url 'index' %}"
+                        location.href = "{% url 'user_login' %}"
                     }
                 });
             }

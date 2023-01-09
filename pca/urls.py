@@ -19,12 +19,12 @@ from django.views.generic import RedirectView
 from dashboard.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^dashboard', include('dashboard.urls')),
+    re_path(r'^dashboard/', include('dashboard.urls')),
     re_path(r'^$', RedirectView.as_view(url='/login/')),
-    re_path(r'users', include('account.urls')),
-    re_path(r'cloud_capitals', include('cloud_capitals.urls')),
-    re_path(r'login', LoginView.as_view(), name='user_login'),
-    re_path(r'index', IndexView.as_view(), name='index'),
+    re_path(r'users/', include('system.urls')),
+    re_path(r'cloud_capitals/', include('cloud_capitals.urls')),
+    re_path(r'login/', LoginView.as_view(), name='user_login'),
+    re_path(r'index/', IndexView.as_view(), name='index'),
 
 
 ]

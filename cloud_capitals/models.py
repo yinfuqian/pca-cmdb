@@ -10,7 +10,7 @@ Prod/POC/test/dev/sit
 """
 
 
-class Enviroment(BaseModel):
+class CloudEnvType(BaseModel):
     class Meta:
         db_table = 'environments'
         ordering = ['-id']
@@ -35,22 +35,9 @@ class CloudType(BaseModel):
 """
 
 
-class Projects(BaseModel):
+class CloudProjectsType(BaseModel):
     class Meta:
-        db_table = 'projects'
-        ordering = ['-id']
-        unique_together = ['name']
-
-
-"""
-业务类型
-新业务/软件业务
-"""
-
-
-class ServicesAddr(BaseModel):
-    class Meta:
-        db_table = 'svc_addr'
+        db_table = 'cloud_servers'
         ordering = ['-id']
         unique_together = ['name']
 
@@ -75,43 +62,47 @@ class ProductType(BaseModel):
         db_table = 'product_type'
         ordering = ['-id']
         unique_together = ['name']
+
+
 """
 项目编号"""
 
 
-class  ProjectNumber(BaseModel):
+class ProjectNumber(BaseModel):
     class Meta:
-        db_table = 'project_number'
+        db_table = 'cloud_server_number'
         ordering = ['-id']
 
 
 """
 云服务器"""
 
-class CloudCapitals(BaseModel):
+
+class CloudServers(BaseModel):
     STATUS = (
         ('0', u'下线'),
         ('1', u'在线'),
     )
+    cloud_server_type = models.CharField(default="", null=True, max_length=50, verbose_name="业务类型")
+    cloud_server_check = models.CharField(default='0', max_length=2, verbose_name='是否核对')
+    cloud_server_cost_env = models.CharField(default="", null=True, max_length=50, verbose_name="成本归属")
+    cloud_server_login_type = models.CharField(default="", null=True, max_length=50, verbose_name="登陆方式")
+    cloud_server_cloud_ownship = models.CharField(default="", null=True, max_length=50, verbose_name="云归属")
+    cloud_server_city = models.CharField(default="", null=True, max_length=50, verbose_name="地域")
+    cloud_server_cloudid = models.CharField(default="", null=True, max_length=50, verbose_name="实例ID")
+    cloud_server_ssh_ip = models.CharField(default="", null=True, max_length=50, verbose_name="内网SSH地址")
+    cloud_server_pub_ip = models.CharField(default="", null=True, max_length=50, verbose_name="公网IP")
+    cloud_server_owner = models.CharField(default="", null=True, max_length=50, verbose_name="责任人")
+    cloud_server_env_type = models.CharField(default="", null=True, max_length=50, verbose_name="环境")
+    cloud_server_cloud_type = models.CharField(default="", null=True, max_length=50, verbose_name="公有云版本")
+    cloud_server_region = models.CharField(default="", null=True, max_length=50, verbose_name="项目区域")
+    cloud_server_number = models.CharField(default="", null=True, max_length=50, verbose_name="项目编号")
+    cloud_server_name = models.CharField(default="", null=True, max_length=50, verbose_name="项目名称")
+    cloud_server_cost_money = models.CharField(default="", null=True, max_length=50, verbose_name="月成本")
+    cloud_server_cloud_name = models.CharField(default="", null=True, max_length=50, verbose_name="公有云实例名")
+    cloud_server_mark_tmp = models.CharField(default="", null=True, max_length=50, verbose_name="临时备注")
+    cloud_server_status = models.CharField(default='1', max_length=2, choices=STATUS, verbose_name='运行状态')
+    cloud_server_expiration_time = models.DateTimeField(null=True, verbose_name="过期时间")
 
-    project_type = models.CharField(default="", null=True, max_length=50, verbose_name="业务类型")
-    project_cost_env = models.CharField(default="", null=True, max_length=50,verbose_name="成本归属")
-    project_login_type = models.CharField(default="", null=True, max_length=50, verbose_name="登陆方式")
-    project_cloud_ownship = models.CharField(default="", null=True,max_length=50, verbose_name="云归属")
-    project_city = models.CharField(default="", null=True, max_length=50, verbose_name="地域")
-    project_cloudid = models.CharField(default="", null=True, max_length=50, verbose_name="实例ID")
-    project_ssh_ip = models.CharField(default="", null=True, max_length=50, verbose_name="内网SSH地址")
-    project_pub_ip = models.CharField(default="", null=True, max_length=50, verbose_name="公网IP")
-    project_owner = models.CharField(default="", null=True, max_length=50, verbose_name="责任人")
-    project_env_type = models.CharField(default="", null=True, max_length=50, verbose_name="环境")
-    project_cloud_type = models.CharField(default="", null=True, max_length=50, verbose_name="公有云版本")
-    project_region = models.CharField(default="", null=True, max_length=50, verbose_name="项目区域")
-    project_number = models.CharField(default="", null=True, max_length=50, verbose_name="项目编号")
-    project_name = models.CharField(default="", null=True, max_length=50, verbose_name="项目名称")
-    project_cost_money = models.CharField(default="", null=True, max_length=50, verbose_name="月成本")
-    project_cloud_name = models.CharField(default="", null=True, max_length=50, verbose_name="公有云实例名")
-    project_mark_tmp = models.CharField(default="", null=True, max_length=50, verbose_name="临时备注")
-    project_status = models.CharField(default='1', max_length=2, choices=STATUS, verbose_name='运行状态')
-    project_expiration_time = models.DateTimeField(null=True, verbose_name="过期时间")
     class Meta:
-        ordering = ['-id']
+        ordering = ['id']
