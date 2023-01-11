@@ -4,6 +4,9 @@ from django.db import models
 from tools.basemodels import BaseModel
 from dashboard.models import *
 
+
+#  业务类型
+
 """
 环境类型
 Prod/POC/test/dev/sit
@@ -24,26 +27,36 @@ class CloudEnvType(BaseModel):
 
 class CloudType(BaseModel):
     class Meta:
-        db_table = "cloudtype"
+        db_table = "cloud_type_name"
         ordering = ['-id']
         unique_together = ['name']
 
 
 """
-项目类型
+项目组类型
 运维公共项目/AIBPO业务中心...
 """
 
 
 class CloudProjectsType(BaseModel):
     class Meta:
-        db_table = 'cloud_servers'
+        db_table = 'cloud_project_groups'
+        ordering = ['-id']
+        unique_together = ['name']
+"""
+公有云版本类型
+POC/多客户..
+"""
+class CloudVersionTypes(BaseModel):
+    class Meta:
+        db_table = 'cloud_project_type'
         ordering = ['-id']
         unique_together = ['name']
 
-
 """
-云资源类型"""
+云平台类型
+腾讯云/阿里云
+"""
 
 
 class CloudCpType(BaseModel):
@@ -55,7 +68,6 @@ class CloudCpType(BaseModel):
 
 """
 产品类型"""
-
 
 class ProductType(BaseModel):
     class Meta:
@@ -102,7 +114,13 @@ class CloudServers(BaseModel):
     cloud_server_cloud_name = models.CharField(default="", null=True, max_length=50, verbose_name="公有云实例名")
     cloud_server_mark_tmp = models.CharField(default="", null=True, max_length=50, verbose_name="临时备注")
     cloud_server_status = models.CharField(default='1', max_length=2, choices=STATUS, verbose_name='运行状态')
-    cloud_server_expiration_time = models.DateTimeField(null=True, verbose_name="过期时间")
+    cloud_server_expiration_time = models.DateTimeField(null=True, max_length=500, verbose_name="过期时间")
+    cloud_server_cpus = models.CharField(default='', null=True, max_length=500, verbose_name='cpu')
+    cloud_server_cpus_car = models.CharField(default='', null=True,max_length=500, verbose_name='cpu卡数')
+    cloud_server_mems = models.CharField(default='', null=True,max_length=500, verbose_name='内存')
+    cloud_server_sysdisks = models.CharField(default='', null=True,max_length=500, verbose_name='系统盘')
+    cloud_server_datadisks = models.CharField(default='', null=True,max_length=500, verbose_name='数据盘')
+
 
     class Meta:
         ordering = ['id']

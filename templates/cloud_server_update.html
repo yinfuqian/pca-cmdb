@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block load_css %}
+    <link href="/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+{% endblock %}
+{% block body %}
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>云资产管理</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href={% url 'index' %}>主页</a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'cloud_servers_list' %}">云资产管理</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <a href="{% url 'cloud_servers_list' %}">服务器管理</a>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="ibox ">
+            <div>
+                <h4>资源更新: {{ cloud_obj.cloud_server_cloudid }}</h4>
+            </div>
+            <form class="form-horizontal" id="submit_form">
+                {% csrf_token %}
+                <div><input type="text" style="display: none" name="id" value="{{ cloud_obj.id }}"></div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">责任人</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="username">
+                        <option value="">{{ cloud_obj.cloud_server_owner }}</option>
+                    </select></div>
+                </div>
+
+                <div class="form-group row"><label class="col-sm-2 col-form-label">云归属</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="cloud_type">
+                        <option value="">{{ cloud_obj.cloud_server_cloud_ownship }}</option>
+                    </select></div>
+                </div>
+
+                <div class="form-group row"><label class="col-sm-2 col-form-label">CPU(核心)</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="cpus"
+                                                  value="{{ cloud_obj.cloud_server_cpus }}"></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">内存(GB)</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="mem"
+                                                  value="{{ cloud_obj.cloud_server_mems }}"></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">CPU(卡数)</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="cpu_cars"
+                                                  value="{{ cloud_obj.cloud_server_cpus_car }}"></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">系统盘(GB)</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="system_disk"
+                                                  value="{{ cloud_obj.cloud_server_sysdisks }}"></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">是否核对</label>
+                    <div class="col-sm-10"><select class="form-control m-b" name="is_check">
+                        <option value="True">是</option>
+                        <option value="False">否</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">SSH方式</label>
+                    <div class="col-sm-10"><select class="form-control m-b" name="is_sup">
+                        <option>堡垒机169直接登录</option>
+                        <option>无</option>
+                    </select></div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <a class="btn btn-warning btn-sm " href="javascript:history.back(-1)" type="submit">取消</a>
+                        <button class="btn btn-primary btn-sm" type="submit">保存更改</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+
+
+
+{% block load_js %}
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/plugins/validate/messages_zh.js"></script>
+    <script src="/static/js/plugins/touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#submit_form").validate({
+                rules: {
+                    is_check: {
+                        required: true
+                    }
+                }, submitHandler: function () {
+                    var str = $('#submit_form').serialize();
+                    $.post('{% url 'cloud_servers_update' %}', str, function (res) {
+                        console.log(res)
+                        if (res.status == 0) {
+                            alert('更新成功')
+                            location.href = "{% url 'user_list' %}"
+                        } else {
+                            alert('更新失败')
+                            location.href = "{% url 'user_list' %}"
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            getIntUser();
+        });
+        {#用户选择#}
+
+        function getIntUser() {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/api/userlist/",
+                success: function (data) {
+                    var len = data.length;
+                    for (var i = 0; i < len; i++) {
+                        var option = document.createElement("option");
+                        $("#username").append(('<option value=' + data[i].id + '>' + data[i].username + '</option>'));
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        {#云归属选择#}
+        $(document).ready(function () {
+            getIntcloud();
+        });
+
+        function getIntcloud() {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/api/cloudlist/",
+                success: function (data) {
+                    var len = data.length;
+                    for (var i = 0; i < len; i++) {
+                        var option = document.createElement("option");
+                        $("#cloud_type").append(('<option value=' + data[i].id + '>' + data[i].name + '</option>'));
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+
+    </script>
+{% endblock %}

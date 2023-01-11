@@ -12,7 +12,7 @@ from django.db import connection
 
 class UserTest(View):
     def get(self, request):
-        for i in range(0, 100):
+        for i in range(0, 10):
             user = Account()
             user.username = 'ceshi{}'.format(i)
             user.password = 'admin1234'
@@ -24,7 +24,6 @@ class UserTest(View):
 
         return HttpResponse("添加测试数据")
 
-
 # 用户显示
 class UserListView(ListView):
     template_name = 'user_list.html'
@@ -33,7 +32,7 @@ class UserListView(ListView):
     paginate_by = 8  # 单页显示
 
     def get_ordering(self):
-        return self.request.GET.get('ordering', '-id')
+        return self.request.GET.get('ordering', 'id')
 
     def get_context_data(self, **kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)
@@ -49,12 +48,6 @@ class UserListView(ListView):
             start = 1
         if end > paginator.num_pages:
             end = paginator.num_pages + 1
-        current_pages_num = end - start
-        if (end == paginator.num_pages + 1):
-            start = start - (5 - current_pages_num)
-        else:
-            if current_pages_num < 5:
-                end = end + (5 - current_pages_num)
         return range(start, end)
 
 # 添加用户
@@ -70,10 +63,6 @@ class UserAddView(TemplateView):
             user.password = make_password(data.get('password'))
             user.email = data.get('email')
             user.phone = data.get('phone')
-            # if data.get('is_act') == "激活":
-            #     user.is_active = True
-            # else:
-            #     user.is_active = False
             user.is_active = data.get('is_act')
             user.is_superuser = data.get('is_sup')
             user.save()
@@ -97,7 +86,6 @@ class UserDeleteView(View):
 
 # 更新用户
 class UserUpdateView(View):
-   # template_name = 'user_create.html'
 
     def get(self, request):
         data = request.GET
@@ -135,12 +123,12 @@ class UserStatus(View):
         status = user.is_active
 
         if status == 0:
-            newstatus = 1
+            new_status = 1
         else:
-            newstatus = 0
+            new_status = 0
         try:
             user = Account.objects.get(id=data.get('id'))
-            user.is_active = newstatus
+            user.is_active = new_status
             user.save()
         except Exception as e:
             print(e)
