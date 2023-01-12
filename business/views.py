@@ -14,13 +14,10 @@ from cloud_capitals.models import *
 列表/创建/删除/更新
 """
 
-
-#  项目组列表
 class BusProjectsGroupListView(View):
     def get(self, request):
         data = CloudProjectsType.objects.all().order_by('pk')
         return render(request, 'business_group_list.html', {'data': data})
-
 
 class BusProjectsGroupUpdateView(View):
     def get(self, request):

@@ -1,7 +1,4 @@
 {% extends 'base.html' %}
-{% block load_css %}
-    <link href="/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
-{% endblock %}
 {% block body %}
     <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
@@ -28,17 +25,10 @@
                 {% csrf_token %}
                 <div><input type="text" style="display: none" name="id" value="{{ cloud_obj.id }}"></div>
                 <div class="form-group row"><label class="col-sm-2 col-form-label">责任人</label>
-                    <div class="col-sm-10"><select class="form-control m-b" id="username">
-                        <option value="">{{ cloud_obj.cloud_server_owner }}</option>
+                    <div class="col-sm-10"><select class="form-control m-b" id="username" name="username">
+                        <option>{{ cloud_obj.cloud_server_owner }}</option>
                     </select></div>
                 </div>
-
-                <div class="form-group row"><label class="col-sm-2 col-form-label">云归属</label>
-                    <div class="col-sm-10"><select class="form-control m-b" id="cloud_type">
-                        <option value="">{{ cloud_obj.cloud_server_cloud_ownship }}</option>
-                    </select></div>
-                </div>
-
                 <div class="form-group row"><label class="col-sm-2 col-form-label">CPU(核心)</label>
                     <div class="col-sm-10"><input type="text" class="form-control" name="cpus"
                                                   value="{{ cloud_obj.cloud_server_cpus }}"></div>
@@ -55,20 +45,117 @@
                     <div class="col-sm-10"><input type="text" class="form-control" name="system_disk"
                                                   value="{{ cloud_obj.cloud_server_sysdisks }}"></div>
                 </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">数据盘(GB)</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="cloud_server_data_disks"
+                                                  value="{{ cloud_obj.cloud_server_datadisks }}"></div>
+                </div>
                 <div class="form-group row"><label class="col-sm-2 col-form-label">是否核对</label>
                     <div class="col-sm-10"><select class="form-control m-b" name="is_check">
-                        <option value="True">是</option>
-                        <option value="False">否</option>
+                        <option>是</option>
+                        <option>否</option>
                     </select></div>
                 </div>
                 <div class="form-group row"><label class="col-sm-2 col-form-label">SSH方式</label>
-                    <div class="col-sm-10"><select class="form-control m-b" name="is_sup">
+                    <div class="col-sm-10"><select class="form-control m-b" name="ssh_method">
                         <option>堡垒机169直接登录</option>
                         <option>无</option>
                     </select></div>
                 </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">产品类型</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="product_type"
+                                                   name="cloud_product_type">
+                        <option>{{ cloud_obj.cloud_product_type }}</option>
+                    </select></div>
+                </div>
 
+                <div class="form-group row"><label class="col-sm-2 col-form-label">状态</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="cloud_server_status"
+                                                   name="cloud_server_status">
+                        <option value="">{{ cloud_obj.cloud_server_status }}</option>
+                        <option value="2">关机</option>
+                        <option value="1">上线</option>
+                        <option value="0">下线</option>
 
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">项目归属</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="cloud_ownership_group"
+                                                   name="cloud_ownership_group">
+                        <option value="">{{ cloud_obj.cloud_server_cost_env }}</option>
+                        <option>无</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">云归属</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="cloud_type" name="cloud_type">
+                        <option value="">{{ cloud_obj.cloud_server_cloud_ownship }}</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">地域</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="cloud_region_city"
+                                                   name="cloud_region_city">
+                        <option>{{ cloud_obj.cloud_server_city }}</option>
+                        <option>北京</option>
+                        <option>上海</option>
+                        <option>广州</option>
+                        <option>成都</option>
+                        <option>深圳</option>
+                        <option>重庆</option>
+                        <option>香港</option>
+                        <option>东京</option>
+                        <option>新加坡</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">内网IP</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="ip_in"
+                                                  value="{{ cloud_obj.cloud_server_ssh_ip }}"></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">外网IP</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="ip_out"
+                                                  value="{{ cloud_obj.cloud_server_pub_ip }}"></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">项目环境</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="cloud_env" name="cloud_env">
+                        <option>{{ cloud_obj.cloud_server_env_type }}</option>
+                        <option>无</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">公有云版本</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="cloud_version" name="cloud_version">
+                        <option value="">{{ cloud_obj.cloud_server_cloud_type }}</option>
+                        <option>无</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">项目区域</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="cloud_porject_region"
+                                                   name="cloud_porject_region">
+                        <option>南区</option>
+                        <option>北区</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">项目编号</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="cloud_server_number"
+                                                  value="{{ cloud_obj.cloud_server_number }}"></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">月成本(￥)</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="cloud_server_cost_money"
+                                                  value="{{ cloud_obj.cloud_server_cost_money }}"></div>
+                </div>
+
+                <div class="form-group row"><label class="col-sm-2 col-form-label">成本归属</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="server_cost_env"
+                                                   name="cloud_server_cost_env">
+                        <option value="">{{ cloud_obj.cloud_server_cost_env }}</option>
+                        <option>无</option>
+                    </select></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">临时备注</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="tmp_remark"
+                                                  value="{{ cloud_obj.cloud_server_mark_tmp }}"></div>
+                </div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">额外备注</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="remark"
+                                                  value="{{ cloud_obj.remark }}"></div>
+                </div>
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-2">
                         <a class="btn btn-warning btn-sm " href="javascript:history.back(-1)" type="submit">取消</a>
@@ -100,10 +187,10 @@
                         console.log(res)
                         if (res.status == 0) {
                             alert('更新成功')
-                            location.href = "{% url 'user_list' %}"
+                            location.href = "{% url 'cloud_servers_list' %}"
                         } else {
                             alert('更新失败')
-                            location.href = "{% url 'user_list' %}"
+                            location.href = "{% url 'cloud_servers_list' %}"
                         }
                     })
                 }
@@ -111,10 +198,11 @@
         })
     </script>
     <script>
+        {#用户选择#}
         $(document).ready(function () {
             getIntUser();
         });
-        {#用户选择#}
+
 
         function getIntUser() {
             $.ajax({
@@ -125,7 +213,32 @@
                     var len = data.length;
                     for (var i = 0; i < len; i++) {
                         var option = document.createElement("option");
-                        $("#username").append(('<option value=' + data[i].id + '>' + data[i].username + '</option>'));
+                        $("#username").append(('<option value=' + data[i].username + '>' + data[i].username + '</option>'));
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        {#产品类型#}
+        $(document).ready(function () {
+            getIntproduct();
+        });
+
+
+        function getIntproduct() {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/api/cloud_server_type_list/",
+                success: function (data) {
+                    var len = data.length;
+                    {#var myslect = document.getElementById("username");#}
+                    for (var i = 0; i < len; i++) {
+                        var option = document.createElement("option");
+                        $("#product_type").append(('<option value=' + data[i].name + '>' + data[i].name + '</option>'));
                     }
                 },
                 error: function (data) {
@@ -148,7 +261,54 @@
                     var len = data.length;
                     for (var i = 0; i < len; i++) {
                         var option = document.createElement("option");
-                        $("#cloud_type").append(('<option value=' + data[i].id + '>' + data[i].name + '</option>'));
+                        $("#cloud_type").append(('<option value=' + data[i].name + '>' + data[i].name + '</option>'));
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        {#项目组/项目归属#}
+        $(document).ready(function () {
+            getIntPorjectGroup();
+        });
+
+        function getIntPorjectGroup() {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/api/project_group_list/",
+                success: function (data) {
+                    var len = data.length;
+                    for (var i = 0; i < len; i++) {
+                        var option = document.createElement("option");
+                        $("#cloud_ownership_group").append(('<option value=' + data[i].name + '>' + data[i].name + '</option>'));
+
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        {#项目组/成本归属#}
+        $(document).ready(function () {
+            getIntPorjectGroupB();
+        });
+
+        function getIntPorjectGroupB() {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/api/project_group_list/",
+                success: function (data) {
+                    var len = data.length;
+                    for (var i = 0; i < len; i++) {
+                        var option = document.createElement("option");
+                        $("#server_cost_env").append(('<option value=' + data[i].name + '>' + data[i].name + '</option>'));
                     }
                 },
                 error: function (data) {
@@ -158,5 +318,50 @@
         }
 
 
+        {#项目环境#}
+        $(document).ready(function () {
+            getIntServerEnv();
+        });
+
+        function getIntServerEnv() {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/api/server_env_type_list/",
+                success: function (data) {
+                    var len = data.length;
+                    for (var i = 0; i < len; i++) {
+                        var option = document.createElement("option");
+                        $("#cloud_env").append(('<option value=' + data[i].name + '>' + data[i].name + '</option>'));
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
+
+        {#公有云版本#}
+        $(document).ready(function () {
+            getIntCloudVersion();
+        });
+
+        function getIntCloudVersion() {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/api/cloud_version_list/",
+                success: function (data) {
+                    var len = data.length;
+                    for (var i = 0; i < len; i++) {
+                        var option = document.createElement("option");
+                        $("#cloud_version").append(('<option value=' + data[i].name + '>' + data[i].name + '</option>'));
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
     </script>
 {% endblock %}

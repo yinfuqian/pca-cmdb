@@ -29,4 +29,5 @@ urlpatterns = [
     re_path(r'project_env/update/', ProductEnvUpdateView.as_view(), name='project_env_update'),
     re_path(r'project_env/delete/', ProductEnvDeleteView.as_view(), name='project_env_delete'),
     re_path(r'project_env/create/', ProductEnvCreateView.as_view(), name='project_env_create'),
+
 ]

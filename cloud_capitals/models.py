@@ -94,10 +94,12 @@ class CloudServers(BaseModel):
     STATUS = (
         ('0', u'下线'),
         ('1', u'在线'),
+        ('2', u'关机'),
     )
-    cloud_server_type = models.CharField(default="", null=True, max_length=50, verbose_name="业务类型")
+    cloud_product_type = models.CharField(default="", null=True, max_length=50, verbose_name="产品类型")
     cloud_server_check = models.CharField(default='0', max_length=2, verbose_name='是否核对')
     cloud_server_cost_env = models.CharField(default="", null=True, max_length=50, verbose_name="成本归属")
+    cloud_server_project_env = models.CharField(default="", null=True, max_length=50, verbose_name="项目归属")
     cloud_server_login_type = models.CharField(default="", null=True, max_length=50, verbose_name="登陆方式")
     cloud_server_cloud_ownship = models.CharField(default="", null=True, max_length=50, verbose_name="云归属")
     cloud_server_city = models.CharField(default="", null=True, max_length=50, verbose_name="地域")

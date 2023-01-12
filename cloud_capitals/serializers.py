@@ -12,5 +12,5 @@ class CloudModeleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CloudType
-        fields = ['name']
+        fields = "__all__"
 

@@ -13,8 +13,6 @@ urlpatterns = [
     re_path('servers/status', CloudServersStatusView.as_view(), name='cloud_servers_status'),
     re_path('servers/delete', CloudServersDeleteView.as_view(), name='cloud_servers_delete'),
     re_path('servers/update', CloudServersUpdata.as_view(), name='cloud_servers_update'),
-#     re_path('company/list/', CloudCompanyListView.as_view(), name='cloud_company_list'),
-#     re_path('company/create', CloudCompanyCreateView.as_view(), name='cloud_company_create'),
-#     re_path('company/delete', CloudCompanyDeleteView.as_view(), name='cloud_company_delete'),
-#     re_path('company/update', CloudCompanyUpdata.as_view(), name='cloud_servers_update'),
+
+    
 ]
