@@ -89,23 +89,22 @@ class UserUpdateView(View):
 
     def get(self, request):
         data = request.GET
+        print(Account.objects.get(id=request.GET.get('id')))
         return render(request, 'user_edit.html', {'user_obj': Account.objects.get(id=request.GET.get('id'))})
 
     def post(self, request):
         data = request.POST
         print(data)
-        print(data.get("id"))
         res = {'status': 0, 'msg': '更新成功'}
         try:
             username = data.get('username')
             password = data.get('password')
-            account = data.get('system')
             email = data.get('email')
             phone = data.get('phone')
             is_active = data.get('is_act')
             is_superuser = data.get('is_sup')
-            # print(username, password, email, phone, is_active, is_superuser)
-            Account.objects.filter(id=data.get("id")).update(username=username,  email=email, phone=phone, is_active=is_active, is_superuser=is_superuser, role=account)
+            role = data.get('account')
+            Account.objects.filter(id=data.get("id")).update(username=username,  email=email, phone=phone, is_active=is_active, is_superuser=is_superuser, role=role)
 
         except Exception as e:
             print(e)

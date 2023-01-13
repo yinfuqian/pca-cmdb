@@ -79,15 +79,55 @@ class CloudServersListView(View):
 
 # 服务器更多信息
 class CloudServersListInfoView(View):
+
+
     def get(self, request):
-        data = CloudServers.objects.all().order_by('pk')
+        data = CloudServers.objects.filter(id=request.GET.get('id'))
         return render(request, 'cloud_server_info.html', {'data': data})
 
 
 # 服务器创建
-class CloudServersCreateView(View):
+class CloudServersCreateView(TemplateView):
+    template_name = 'cloud_server_create.html'
+
     def post(self, request):
         data = request.POST
+        res = {'status': 0, 'msg': '添加成功'}
+        print(data)
+        try:
+            cloud = CloudServers()
+            cloud.name = data.get('name')
+            cloud.remark = data.get('remark')
+            cloud.cloud_server_cloudid = data.get('cloud_server_cloudid')
+            cloud.cloud_server_owner = data.get('username')
+            cloud.cloud_server_cpus = data.get('cpus')
+            cloud.cloud_server_mems = data.get('mem')
+            cloud.cloud_server_cpus_car = data.get('cpu_cars')
+            cloud.cloud_server_sysdisks = data.get('system_disk')
+            cloud.cloud_server_datadisks = data.get('cloud_server_data_disks')
+            cloud.cloud_server_check = data.get('is_check')
+            cloud.cloud_server_login_type = data.get('ssh_method')
+            cloud.cloud_product_type = data.get('cloud_product_type')
+            cloud.cloud_server_status = data.get('cloud_server_status')
+            cloud.cloud_server_project_env = data.get('cloud_ownership_group')
+            cloud.cloud_server_cloud_ownship = data.get('cloud_type')
+            cloud.cloud_server_city = data.get('cloud_region_city')
+            cloud.cloud_server_ssh_ip = data.get('ip_in')
+            cloud.cloud_server_pub_ip = data.get('ip_out')
+            cloud.cloud_server_env_type = data.get('cloud_env')
+            cloud.cloud_server_cloud_type = data.get('cloud_version')
+            cloud.cloud_server_region = data.get('cloud_porject_region')
+            cloud.cloud_server_number = data.get('cloud_server_number')
+            cloud.cloud_server_cost_money = data.get('cloud_server_cost_money')
+            cloud.cloud_server_cost_env = data.get('cloud_server_cost_env')
+            cloud.cloud_server_mark_tmp = data.get('tmp_remark')
+            cloud.remark = data.get('remark')
+            cloud.cloud_server_expiration_time = data.get('cloud_server_expiration_time')
+            cloud.save()
+        except Exception as e:
+            print(e)
+            res = {'status': '1', 'msg': '添加失败'}
+        return JsonResponse(res)
 
 
 # 服务器状态修改
@@ -141,8 +181,6 @@ class CloudServersUpdata(View):
 
     def post(self, request):
         data = request.POST
-        # print(data)
-        # print(data.get("id"))
         res = {'status': 0, 'msg': '更新成功'}
         try:
             print(data)
@@ -155,7 +193,6 @@ class CloudServersUpdata(View):
             cloud_server_check = data.get('is_check')
             cloud_server_login_type = data.get('ssh_method')
             cloud_product_type = data.get('cloud_product_type')
-
             cloud_server_status = data.get('cloud_server_status')
             cloud_server_cost_env = data.get('cloud_ownership_group')
             cloud_server_cloud_ownship = data.get('cloud_type')
@@ -170,10 +207,12 @@ class CloudServersUpdata(View):
             cloud_server_project_env = data.get('cloud_server_cost_env')
             cloud_server_mark_tmp = data.get('tmp_remark')
             remark = data.get('remark')
+            cloud_server_expiration_time = data.get('cloud_server_expiration_time')
 
-            # print(username, password, email, phone, is_active, is_superuser)
-            # Account.objects.filter(id=data.get("id")).update(username=username,  email=email, phone=phone, is_active=is_active, is_superuser=is_superuser, role=account)
+            print(data)
+            print(CloudServers.objects.filter(id=data.get("id")))
             CloudServers.objects.filter(id=data.get("id")).update(cloud_server_owner=cloud_server_owner,
+                                                                  cloud_server_expiration_time=cloud_server_expiration_time,
                                                                   cloud_server_cpus=cloud_server_cpus,
                                                                   cloud_server_mems=cloud_server_mems,
                                                                   cloud_server_cpus_car=cloud_server_cpus_car,
