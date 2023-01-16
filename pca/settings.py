@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'pca',
     'dashboard',
     'cloud_capitals',
+    'static_capitals',
     'system'
 ]
 

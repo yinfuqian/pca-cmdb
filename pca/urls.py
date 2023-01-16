@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import RedirectView
 from dashboard.views import *
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^dashboard/', include('dashboard.urls')),
@@ -25,8 +26,8 @@ urlpatterns = [
     re_path(r'index/', IndexView.as_view(), name='index'),
     re_path(r'users/', include('system.urls')),
     re_path(r'cloud_capitals/', include('cloud_capitals.urls')),
+    re_path(r'static_capitals/', include('static_capitals.urls')),
     re_path(r'business/', include('business.urls')),
     re_path(r'api/', include('api.urls'))
-
 
 ]

@@ -123,11 +123,11 @@ class CloudServers(BaseModel):
     cloud_server_mark_tmp = models.CharField(default="", null=True, max_length=50, verbose_name="临时备注")
     cloud_server_status = models.CharField(default='1', max_length=2, choices=STATUS, verbose_name='运行状态')
     cloud_server_expiration_time = models.CharField(null=True, max_length=500, verbose_name="过期时间")
-    cloud_server_cpus = models.PositiveBigIntegerField(default='', null=True, max_length=500, verbose_name='cpu')
-    cloud_server_cpus_car = models.PositiveBigIntegerField(default='', null=True, max_length=500, verbose_name='cpu卡数')
-    cloud_server_mems = models.PositiveBigIntegerField(default='', null=True, max_length=500, verbose_name='内存')
-    cloud_server_sysdisks = models.PositiveBigIntegerField(default='', null=True, max_length=500, verbose_name='系统盘')
-    cloud_server_datadisks = models.PositiveBigIntegerField(default='', null=True, max_length=500, verbose_name='数据盘')
+    cloud_server_cpus = models.PositiveBigIntegerField(default='', null=True, verbose_name='cpu')
+    cloud_server_cpus_car = models.PositiveBigIntegerField(default='', null=True,  verbose_name='cpu卡数')
+    cloud_server_mems = models.PositiveBigIntegerField(default='', null=True, verbose_name='内存')
+    cloud_server_sysdisks = models.PositiveBigIntegerField(default='', null=True, verbose_name='系统盘')
+    cloud_server_datadisks = models.PositiveBigIntegerField(default='', null=True, verbose_name='数据盘')
 
     class Meta:
         ordering = ['id']
