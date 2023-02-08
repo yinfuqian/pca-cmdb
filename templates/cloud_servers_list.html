@@ -21,7 +21,7 @@
         </div>
     </div>
 
-        <div class="ibox-content">
+    <div class="ibox-content">
         <div class="row m-b-sm m-t-sm">
             <div class="col-md-11">
                 <div class="input-group">
@@ -49,27 +49,29 @@
                                 <th class="text-center">创建时间</th>
                                 <th class="text-center">修改时间</th>
                                 <th class="text-center">云归属</th>
-                                <th class="text-center">临时备注</th>
-                                <th class="text-center">备注</th>
+                                <th class="text-center">内网IP</th>
+                                <th class="text-center">公网IP</th>
                                 <th class="text-center">状态</th>
                                 <th class="text-center">操作</th>
 
                             </tr>
                             </thead>
                             <tbody>
-                            {% for info in data %}
+                            {% for info in cloudservers_list %}
                                 <tr>
                                     <td class="text-center">{{ info.id }}</td>
                                     <td class="text-center">{{ info.cloud_server_cloudid }}</td>
                                     <td class="text-center">{{ info.created_tm }}</td>
                                     <td class="text-center">{{ info.updated_tm }}</td>
                                     <td class="text-center">{{ info.cloud_server_cloud_ownship }}</td>
-                                    <td class="text-center">{{ info.cloud_server_mark_tmp }}</td>
-                                    <td class="text-center">{{ info.remark }}</td>
-                                    {% if info.cloud_server_status == "1" %}
+                                    <td class="text-center">{{ info.cloud_server_ssh_ip }}</td>
+                                    <td class="text-center">{{ info.cloud_server_pub_ip }}</td>
+                                    {% if info.cloud_server_status == "0" %}
                                         <td class="text-center"><i class="fa fa-circle text-navy"></i></td>
-                                    {% else %}
+                                    {% elif info.cloud_server_status == "1" %}
                                         <td class="text-center"><i class="fa fa-circle text-danger"></i></td>
+                                    {% else %}
+                                        <td class="text-center"><i class="fa fa-circle text-warning"></i></td>
                                     {% endif %}
                                     <td class="text-center">
                                         <a type="button" class="btn btn-info btn-sm"
@@ -88,6 +90,29 @@
                             {% endfor %}
                             </tbody>
                         </table>
+                        <center>
+                            <div class="btn-group">
+                                {% if page_obj.has_previous %}
+                                    <a type="button" class="btn btn-white"
+                                       href="{% url 'cloud_servers_list' %}?page={{ page_obj.previous_page_number }}"><i
+                                            class="fa fa-chevron-left"></i></a>
+                                {% endif %}
+                                {% for page in page_range %}
+                                    {% if page_obj.number == page %}
+                                        <a class="btn btn-white active"
+                                           href="{% url 'cloud_servers_list' %}?page={{ page }}">{{ page }}</a>
+                                    {% else %}
+                                        <a class="btn btn-white"
+                                           href="{% url 'cloud_servers_list' %}?page={{ page }}">{{ page }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <a type="button" class="btn btn-white"
+                                       href="{% url 'cloud_servers_list' %}?page={{ page_obj.next_page_number }}"><i
+                                            class="fa fa-chevron-right"></i></a>
+                                {% endif %}
+                            </div>
+                        </center>
                     </div>
                 </div>
             </div>
@@ -115,16 +140,16 @@
     </script>
     <script>
         function server_list(id) {
-                $.get("{% url 'cloud_servers_status' %}?id=" + id, function (data) {
-                        if (data.status == 0) {
-                            alert("更新成功")
-                            location.href = "{% url 'cloud_servers_list' %}"
-                        } else {
-                            alert("更新失败")
-                            location.href = "{% url 'cloud_servers_list' %}"
-                        }
+            $.get("{% url 'cloud_servers_status' %}?id=" + id, function (data) {
+                    if (data.status == 0) {
+                        alert("更新成功")
+                        location.href = "{% url 'cloud_servers_list' %}"
+                    } else {
+                        alert("更新失败")
+                        location.href = "{% url 'cloud_servers_list' %}"
                     }
-                )
+                }
+            )
         }
     </script>
 

@@ -8,21 +8,19 @@ from django.db import connection
 """
 用户列表展示
 """
-
-
-class UserTest(View):
-    def get(self, request):
-        for i in range(0, 10):
-            user = Account()
-            user.username = 'ceshi{}'.format(i)
-            user.password = 'admin1234'
-            user.email = 'test{}@test.com'.format(i)
-            user.phone = '155155644{}'.format(i)
-            user.is_active = '1'
-            user.is_superuser = '0'
-            user.save()
-
-        return HttpResponse("添加测试数据")
+# class UserTest(View):
+#     def get(self, request):
+#         for i in range(0, 10):
+#             user = Account()
+#             user.username = 'ceshi{}'.format(i)
+#             user.password = 'admin1234'
+#             user.email = 'test{}@test.com'.format(i)
+#             user.phone = '155155644{}'.format(i)
+#             user.is_active = '1'
+#             user.is_superuser = '0'
+#             user.save()
+#
+#         return HttpResponse("添加测试数据")
 
 # 用户显示
 class UserListView(ListView):
@@ -37,7 +35,7 @@ class UserListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)
         context['page_range'] = self.page_range(context['page_obj'], context['paginator'])
-        # print(context)
+        print(context)
         return context
 
     def page_range(self, page_obj, paginator):

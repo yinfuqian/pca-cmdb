@@ -6,3 +6,4 @@ from django.views.generic import TemplateView, ListView, View
 
 class MachineRooms(TemplateView):
     template_name = 'machine_rooms_list.html'
+

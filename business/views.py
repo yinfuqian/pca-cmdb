@@ -3,7 +3,7 @@ import datetime
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
 from cloud_capitals.models import *
 
@@ -14,10 +14,32 @@ from cloud_capitals.models import *
 列表/创建/删除/更新
 """
 
-class BusProjectsGroupListView(View):
-    def get(self, request):
-        data = CloudProjectsType.objects.all().order_by('pk')
-        return render(request, 'business_group_list.html', {'data': data})
+
+class BusProjectsGroupListView(ListView):
+    template_name = 'business_group_list.html'
+    model = CloudProjectsType
+    ordering = 'id'
+    paginate_by = 8  # 单页显示
+
+    def get_ordering(self):
+        return self.request.GET.get('ordering', 'id')
+
+    def get_context_data(self, **kwargs):
+        context = super(BusProjectsGroupListView, self).get_context_data(**kwargs)
+        context['page_range'] = self.page_range(context['page_obj'], context['paginator'])
+        print(context)
+        return context
+
+    def page_range(self, page_obj, paginator):
+        current_page = page_obj.number
+        start = current_page - 2
+        end = current_page + 3
+        if start < 1:
+            start = 1
+        if end > paginator.num_pages:
+            end = paginator.num_pages + 1
+        return range(start, end)
+
 
 class BusProjectsGroupUpdateView(View):
     def get(self, request):
@@ -76,10 +98,30 @@ class BusProjectsGroupCreateView(TemplateView):
 """
 
 
-class CloudTypeListView(View):
-    def get(self, request):
-        data = CloudVersionTypes.objects.all().order_by('pk')
-        return render(request, 'cloud_version_list.html', {'data': data})
+class CloudTypeListView(ListView):
+    template_name = 'cloud_version_list.html'
+    model = CloudVersionTypes
+    ordering = 'id'
+    paginate_by = 8  # 单页显示
+
+    def get_ordering(self):
+        return self.request.GET.get('ordering', 'id')
+
+    def get_context_data(self, **kwargs):
+        context = super(CloudTypeListView, self).get_context_data(**kwargs)
+        context['page_range'] = self.page_range(context['page_obj'], context['paginator'])
+        print(context)
+        return context
+
+    def page_range(self, page_obj, paginator):
+        current_page = page_obj.number
+        start = current_page - 2
+        end = current_page + 3
+        if start < 1:
+            start = 1
+        if end > paginator.num_pages:
+            end = paginator.num_pages + 1
+        return range(start, end)
 
 
 class CloudTypeUpdateView(View):
@@ -132,14 +174,37 @@ class CloudTypeCreateView(TemplateView):
             res = {'status': '1', 'msg': '添加失败'}
         return JsonResponse(res)
 
+
 """
 产品类型
 yibot/call 
 """
-class ProductTypeListView(View):
-    def get(self, request):
-        data = ProductType.objects.all().order_by('pk')
-        return render(request, 'product_type_list.html', {'data': data})
+
+
+class ProductTypeListView(ListView):
+    template_name = 'product_type_list.html'
+    model = ProductType
+    ordering = 'id'
+    paginate_by = 8  # 单页显示
+
+    def get_ordering(self):
+        return self.request.GET.get('ordering', 'id')
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductTypeListView, self).get_context_data(**kwargs)
+        context['page_range'] = self.page_range(context['page_obj'], context['paginator'])
+        print(context)
+        return context
+
+    def page_range(self, page_obj, paginator):
+        current_page = page_obj.number
+        start = current_page - 2
+        end = current_page + 3
+        if start < 1:
+            start = 1
+        if end > paginator.num_pages:
+            end = paginator.num_pages + 1
+        return range(start, end)
 
 
 class ProductTypeUpdateView(View):
@@ -155,8 +220,8 @@ class ProductTypeUpdateView(View):
             name = data.get('name')
             remark = data.get('remark')
             ProductType.objects.filter(id=data.get("id")).update(name=name, remark=remark,
-                                                                       updated_tm=datetime.datetime.now().strftime(
-                                                                           '%Y-%m-%d %H:%M:%S.%f'))
+                                                                 updated_tm=datetime.datetime.now().strftime(
+                                                                     '%Y-%m-%d %H:%M:%S.%f'))
         except Exception as e:
             print(e)
             res = {'status': '1', 'msg': '更新失败'}
@@ -198,10 +263,30 @@ class ProductTypeCreateView(TemplateView):
 """
 
 
-class ProductEnvListView(View):
-    def get(self, request):
-        data = CloudEnvType.objects.all().order_by('pk')
-        return render(request, 'project_env_list.html', {'data': data})
+class ProductEnvListView(ListView):
+    template_name = 'project_env_list.html'
+    model = CloudEnvType
+    ordering = 'id'
+    paginate_by = 8  # 单页显示
+
+    def get_ordering(self):
+        return self.request.GET.get('ordering', 'id')
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductEnvListView, self).get_context_data(**kwargs)
+        context['page_range'] = self.page_range(context['page_obj'], context['paginator'])
+        print(context)
+        return context
+
+    def page_range(self, page_obj, paginator):
+        current_page = page_obj.number
+        start = current_page - 2
+        end = current_page + 3
+        if start < 1:
+            start = 1
+        if end > paginator.num_pages:
+            end = paginator.num_pages + 1
+        return range(start, end)
 
 
 class ProductEnvUpdateView(View):
@@ -218,8 +303,8 @@ class ProductEnvUpdateView(View):
             name = data.get('name')
             remark = data.get('remark')
             CloudEnvType.objects.filter(id=data.get("id")).update(name=name, remark=remark,
-                                                                 updated_tm=datetime.datetime.now().strftime(
-                                                                     '%Y-%m-%d %H:%M:%S.%f'))
+                                                                  updated_tm=datetime.datetime.now().strftime(
+                                                                      '%Y-%m-%d %H:%M:%S.%f'))
         except Exception as e:
             print(e)
             res = {'status': '1', 'msg': '更新失败'}

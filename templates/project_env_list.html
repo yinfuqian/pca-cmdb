@@ -23,7 +23,7 @@
     </div>
 
 
-        <div class="row m-b-sm m-t-sm">
+    <div class="row m-b-sm m-t-sm">
         <div class="col-md-11">
             <div class="input-group">
                 <input type="text" placeholder="搜索" class="input-sm form-control"> <span class="input-group-btn"><button
@@ -56,19 +56,44 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for info in data %}
+                            {% for info in cloudenvtype_list %}
                                 <tr>
                                     <td class="text-center">{{ info.id }}</td>
                                     <td class="text-center">{{ info.name }}</td>
                                     <td class="text-center">{{ info.remark }}</td>
                                     <td class="text-center">
-                                        <a type="button" class="btn-primary btn-sm" href="{% url 'project_env_update' %}?id={{ info.id }}">更新</a>
-                                        <a type="button" class="btn btn-danger btn-sm" onclick="server_delete({{ info.id }})">删除</a>
+                                        <a type="button" class="btn-primary btn-sm"
+                                           href="{% url 'project_env_update' %}?id={{ info.id }}">更新</a>
+                                        <a type="button" class="btn btn-danger btn-sm"
+                                           onclick="server_delete({{ info.id }})">删除</a>
                                     </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
+                        <center>
+                            <div class="btn-group">
+                                {% if page_obj.has_previous %}
+                                    <a type="button" class="btn btn-white"
+                                       href="{% url 'project_env_list' %}?page={{ page_obj.previous_page_number }}"><i
+                                            class="fa fa-chevron-left"></i></a>
+                                {% endif %}
+                                {% for page in page_range %}
+                                    {% if page_obj.number == page %}
+                                        <a class="btn btn-white active"
+                                           href="{% url 'project_env_list' %}?page={{ page }}">{{ page }}</a>
+                                    {% else %}
+                                        <a class="btn btn-white"
+                                           href="{% url 'project_env_list' %}?page={{ page }}">{{ page }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <a type="button" class="btn btn-white"
+                                       href="{% url 'project_env_list' %}?page={{ page_obj.next_page_number }}"><i
+                                            class="fa fa-chevron-right"></i></a>
+                                {% endif %}
+                            </div>
+                        </center>
                     </div>
                 </div>
             </div>
@@ -96,16 +121,16 @@
     </script>
     <script>
         function server_list(id) {
-                $.get("{% url 'project_env_update' %}?id=" + id, function (data) {
-                        if (data.status == 0) {
-                            alert("更新成功")
-                            location.href = "{% url 'project_env_list' %}"
-                        } else {
-                            alert("更新失败")
-                            location.href = "{% url 'project_env_list' %}"
-                        }
+            $.get("{% url 'project_env_update' %}?id=" + id, function (data) {
+                    if (data.status == 0) {
+                        alert("更新成功")
+                        location.href = "{% url 'project_env_list' %}"
+                    } else {
+                        alert("更新失败")
+                        location.href = "{% url 'project_env_list' %}"
                     }
-                )
+                }
+            )
         }
     </script>
 
