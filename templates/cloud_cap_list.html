@@ -36,7 +36,7 @@
 
 
     <div class="ibox-content">
-        <table class="footable table table-stripped toggle-arrow-tiny">
+        <table class="footable table table-stripped toggle-arrow-tiny" id="num">
             <thead>
             <tr>
                 <th class="text-center">ID</th>
@@ -82,6 +82,14 @@
                         location.href = "{% url 'cloud_cap_list' %}"
                     }
                 })
+            }
+        }
+    </script>
+    <script type="text/javascript">
+        window.onload = function () {
+            var oTable = document.getElementById("num");
+            for (var i = 0; i < oTable.rows.length; i++) {
+                oTable.rows[i + 1].cells[0].innerHTML = (i + 1);
             }
         }
     </script>

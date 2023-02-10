@@ -25,6 +25,7 @@ class StaticRooms(BaseModel):
 
 
 class Eqcabs(BaseModel):
+    static_room_name = models.CharField(default="", null=False, max_length=50, verbose_name="归属机房")
     class Meta:
         db_table = "static_eqcabs"
         unique_together = ['name']

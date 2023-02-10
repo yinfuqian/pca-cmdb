@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block load_css %}
-    <link href="/static/css/plugins/footable/footable.core.css" rel="stylesheet">
+    <link href="/static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
 {% endblock %}
 {% block body %}
-    <div class="pace-progress-inner"></div>
-    <div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <div class="row wrapper border-bottom white-bg page-heading">
         <div class="col-lg-10">
             <h2>业务中心</h2>
             <ol class="breadcrumb">
@@ -15,97 +15,64 @@
                     <a href="{% url 'index' %}">硬件资产管理</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong><a href="{% url 'machine_rooms_List' %}">机房管理</a></strong>
+                    <a href="{% url 'machine_rooms_List' %}">机房</a>
                 </li>
-
             </ol>
         </div>
     </div>
-    <div class="row m-b-sm m-t-sm">
-        <div class="col-md-11">
-            <div class="input-group">
-                <input type="text" placeholder="搜索" class="input-sm form-control"> <span class="input-group-btn"><button
-                    type="button" class="btn btn-sm btn-primary">搜索</button>
-                       </span>
-                <div>&nbsp;</div>
-                <div class="">
-                    <a class="btn btn-sm btn-primary" href="{% url 'cloud_type_create' %}">创建机房</a>
-                </div>
+
+        <div class="ibox">
+            <div>
+                <h4>创建机房</h4>
             </div>
-        </div>
-    </div>
+            <form class="form-horizontal" id="submit_form">
+                {% csrf_token %}
+                <div class="hr-line-dashed"></div>
+                <div class="form-group  row"><label class="col-sm-2 col-form-label">名称</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="name"></div>
+                </div>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group  row"><label class="col-sm-2 col-form-label">备注</label>
+                    <div class="col-sm-10"><input type="text" class="form-control" name="remark"></div>
+                </div>
 
-    <div class="wrapper wrapper-content animated fadeInRight">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="ibox ">
-                    <div class="ibox-content">
-
-
-                        <table class="footable table table-stripped toggle-arrow-tiny tablet breakpoint footable-loaded">
-                            <thead>
-                            <tr>
-                                <th class="text-center">ID</th>
-                                <th class="text-center">名称</th>
-                                <th class="text-center">备注</th>
-                                <th class="text-center">操作</th>
-
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for info in data %}
-                                <tr>
-                                    <td class="text-center">{{ info.id }}</td>
-                                    <td class="text-center">{{ info.name }}</td>
-                                    <td class="text-center">{{ info.remark }}</td>
-                                    <td class="text-center">
-                                        <a type="button" class="btn-primary btn-sm"
-                                           href="{% url 'cloud_type_update' %}?id={{ info.id }}">更新</a>
-                                        <a type="button" class="btn btn-danger btn-sm"
-                                           onclick="server_delete({{ info.id }})">删除</a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <div class="col-sm-4 col-sm-offset-2">
+                        <a class="btn btn-warning btn-sm " href="javascript:history.back(-1)" type="submit">取消</a>
+                        <button class="btn btn-primary btn-sm" type="submit">保存更改</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </div>
-
     </div>
     </div>
 {% endblock %}
-{% block load_js %}
-    <script>
-        function server_delete(id) {
-            if (confirm('确定删除吗？')) {
-                $.get("{% url 'cloud_type_delete' %}?id=" + id, function (data) {
-                    if (data.status == 0) {
-                        alert("删除成功")
-                        location.href = "{% url 'cloud_type_list' %}"
-                    } else {
-                        alert("删除失败")
-                        location.href = "{% url 'cloud_type_list' %}"
-                    }
-                })
-            }
-        }
-    </script>
-    <script>
-        function server_list(id) {
-            $.get("{% url 'cloud_type_update' %}?id=" + id, function (data) {
-                    if (data.status == 0) {
-                        alert("更新成功")
-                        location.href = "{% url 'cloud_type_list' %}"
-                    } else {
-                        alert("更新失败")
-                        location.href = "{% url 'cloud_type_list' %}"
-                    }
-                }
-            )
-        }
-    </script>
 
+{% block load_js %}
+    <script src="/static/js/plugins/validate/jquery.validate.min.js"></script>
+    <script src="/static/js/plugins/validate/messages_zh.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#submit_form").validate({
+                rules: {
+                    name: {
+                        required: true
+                    }
+                }, submitHandler: function () {
+                    var str = $('#submit_form').serialize();
+                    $.post('{% url 'machine_rooms_create' %}', str, function (res) {
+                        console.log(res)
+                        if (res.status == 0) {
+                            alert('添加成功')
+                            location.href = "{% url 'machine_rooms_List' %}"
+                        } else {
+                            alert('添加失败')
+                            location.href = "{% url 'machine_rooms_List' %}"
+                        }
+                    })
+                }
+            })
+        })
+    </script>
 {% endblock %}

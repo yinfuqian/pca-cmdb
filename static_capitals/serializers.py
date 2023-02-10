@@ -5,12 +5,12 @@
 # @Project : manage.py
 
 from rest_framework import serializers
-from .models import CloudType
+from .models import StaticRooms
 
 
-class CloudModeleSerializer(serializers.ModelSerializer):
+class MachineRoomsListSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = CloudType
+        model = StaticRooms
         fields = "__all__"
 

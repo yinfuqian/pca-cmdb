@@ -8,20 +8,6 @@ from django.db import connection
 """
 用户列表展示
 """
-# class UserTest(View):
-#     def get(self, request):
-#         for i in range(0, 10):
-#             user = Account()
-#             user.username = 'ceshi{}'.format(i)
-#             user.password = 'admin1234'
-#             user.email = 'test{}@test.com'.format(i)
-#             user.phone = '155155644{}'.format(i)
-#             user.is_active = '1'
-#             user.is_superuser = '0'
-#             user.save()
-#
-#         return HttpResponse("添加测试数据")
-
 # 用户显示
 class UserListView(ListView):
     template_name = 'user_list.html'

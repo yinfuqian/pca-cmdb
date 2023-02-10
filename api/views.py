@@ -7,7 +7,7 @@ from cloud_capitals.models import *
 from dashboard.serializers import AccountModeleSerializer
 from cloud_capitals.serializers import CloudModeleSerializer
 from business.serializers import *
-
+from static_capitals.serializers import *
 
 # Create your views here.
 
@@ -39,4 +39,6 @@ class APICloudVersionList(viewsets.ModelViewSet):
     queryset = CloudVersionTypes.objects.all()
     serializer_class = CloudVersionModeleSerializer
 
-
+class APIMachineRoomsList(viewsets.ModelViewSet):
+    queryset = StaticRooms.objects.all()
+    serializer_class = MachineRoomsListSerializer

@@ -15,7 +15,7 @@
                     <a href="{% url 'index' %}">硬件资产管理</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong><a href="{% url 'machine_rooms_List' %}">机房管理</a></strong>
+                    <strong><a href="{% url 'machine_rooms_List' %}">机柜管理</a></strong>
                 </li>
 
             </ol>
@@ -29,7 +29,7 @@
                        </span>
                 <div>&nbsp;</div>
                 <div class="">
-                    <a class="btn btn-sm btn-primary" href="{% url 'machine_rooms_create' %}">创建机房</a>
+                    <a class="btn btn-sm btn-primary" href="{% url 'machine_cupb_create' %}">创建机柜</a>
                 </div>
             </div>
         </div>
@@ -42,11 +42,13 @@
                     <div class="ibox-content">
 
 
-                        <table class="footable table table-stripped toggle-arrow-tiny tablet breakpoint footable-loaded">
+                        <table class="footable table table-stripped toggle-arrow-tiny tablet breakpoint footable-loaded"
+                               id="num">
                             <thead>
                             <tr>
                                 <th class="text-center">ID</th>
                                 <th class="text-center">名称</th>
+                                <th class="text-center">所属机房</th>
                                 <th class="text-center">备注</th>
                                 <th class="text-center">操作</th>
 
@@ -57,10 +59,11 @@
                                 <tr>
                                     <td class="text-center">{{ info.id }}</td>
                                     <td class="text-center">{{ info.name }}</td>
+                                    <td class="text-center">{{ info.static_room_name }}</td>
                                     <td class="text-center">{{ info.remark }}</td>
                                     <td class="text-center">
                                         <a type="button" class="btn-primary btn-sm"
-                                           href="{% url 'machine_rooms_update' %}?id={{ info.id }}">更新</a>
+                                           href="{% url 'machine_cupb_update' %}?id={{ info.id }}">更新</a>
                                         <a type="button" class="btn btn-danger btn-sm"
                                            onclick="server_delete({{ info.id }})">删除</a>
                                     </td>
@@ -78,16 +81,25 @@
     </div>
 {% endblock %}
 {% block load_js %}
+    <script type="text/javascript">
+        window.onload = function () {
+            var oTable = document.getElementById("num");
+            for (var i = 0; i < oTable.rows.length; i++) {
+                oTable.rows[i + 1].cells[0].innerHTML = (i + 1);
+            }
+        }
+    </script>
+
     <script>
         function server_delete(id) {
             if (confirm('确定删除吗？')) {
-                $.get("{% url 'machine_rooms_delete' %}?id=" + id, function (data) {
+                $.get("{% url 'machine_cupb_delete' %}?id=" + id, function (data) {
                     if (data.status == 0) {
                         alert("删除成功")
-                        location.href = "{% url 'machine_rooms_List' %}"
+                        location.href = "{% url 'machine_cupb_list' %}"
                     } else {
                         alert("删除失败")
-                        location.href = "{% url 'machine_rooms_List' %}"
+                        location.href = "{% url 'machine_cupb_list' %}"
                     }
                 })
             }
@@ -95,13 +107,13 @@
     </script>
     <script>
         function server_list(id) {
-            $.get("{% url 'machine_rooms_update' %}?id=" + id, function (data) {
+            $.get("{% url 'machine_cupb_update' %}?id=" + id, function (data) {
                     if (data.status == 0) {
                         alert("更新成功")
-                        location.href = "{% url 'machine_rooms_List' %}"
+                        location.href = "{% url 'machine_cupb_list' %}"
                     } else {
                         alert("更新失败")
-                        location.href = "{% url 'machine_rooms_List' %}"
+                        location.href = "{% url 'machine_cupb_list' %}"
                     }
                 }
             )

@@ -46,7 +46,7 @@
                     <div class="ibox-content">
 
 
-                        <table class="footable table table-stripped toggle-arrow-tiny tablet breakpoint footable-loaded">
+                        <table class="footable table table-stripped toggle-arrow-tiny tablet breakpoint footable-loaded" id="num">
                             <thead>
                             <tr>
                                 <th class="text-center">ID</th>
@@ -106,6 +106,14 @@
     </div>
 {% endblock %}
 {% block load_js %}
+    <script type="text/javascript">
+        window.onload = function () {
+            var oTable = document.getElementById("num");
+            for (var i = 0; i < oTable.rows.length; i++) {
+                oTable.rows[i + 1].cells[0].innerHTML = (i + 1);
+            }
+        }
+    </script>
     <script>
         function server_delete(id) {
             if (confirm('确定删除吗？')) {

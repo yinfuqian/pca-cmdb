@@ -15,5 +15,5 @@ urlpatterns = [
     path("server_owner_group_list/", views.APIServerTypeList.as_view({'get': 'list'})),
     path("server_env_type_list/", views.APIServerEnvTypeList.as_view({'get': 'list'})),
     path("cloud_version_list/", views.APICloudVersionList.as_view({'get': 'list'})),
-
+    path("macine_rooms_list/", views.APIMachineRoomsList.as_view({'get': 'list'})),
 ]

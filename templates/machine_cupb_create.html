@@ -15,7 +15,7 @@
                     <a href="{% url 'index' %}">硬件资产管理</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <a href="{% url 'machine_rooms_List' %}">机房</a>
+                    <a href="{% url 'machine_cupb_list' %}">机柜</a>
                 </li>
             </ol>
         </div>
@@ -23,20 +23,23 @@
 
         <div class="ibox">
             <div>
-                <h4>创建创建</h4>
+                <h4>创建机柜</h4>
             </div>
             <form class="form-horizontal" id="submit_form">
                 {% csrf_token %}
                 <div class="hr-line-dashed"></div>
+                <div class="hr-line-dashed"></div>
                 <div class="form-group  row"><label class="col-sm-2 col-form-label">名称</label>
                     <div class="col-sm-10"><input type="text" class="form-control" name="name"></div>
                 </div>
-                <div class="hr-line-dashed"></div>
+                <div class="form-group row"><label class="col-sm-2 col-form-label">所属机房</label>
+                    <div class="col-sm-10"><select class="form-control m-b" id="static_room_name" name="static_room_name">
+                        <option>未知</option>
+                    </select></div>
+                </div>
                 <div class="form-group  row"><label class="col-sm-2 col-form-label">备注</label>
                     <div class="col-sm-10"><input type="text" class="form-control" name="remark"></div>
                 </div>
-
-                <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-2">
                         <a class="btn btn-warning btn-sm " href="javascript:history.back(-1)" type="submit">取消</a>
@@ -61,18 +64,43 @@
                     }
                 }, submitHandler: function () {
                     var str = $('#submit_form').serialize();
-                    $.post('{% url 'machine_rooms_create' %}', str, function (res) {
+                    $.post('{% url 'machine_cupb_create' %}', str, function (res) {
                         console.log(res)
                         if (res.status == 0) {
                             alert('添加成功')
-                            location.href = "{% url 'machine_rooms_List' %}"
+                            location.href = "{% url 'machine_cupb_list' %}"
                         } else {
                             alert('添加失败')
-                            location.href = "{% url 'machine_rooms_List' %}"
+                            location.href = "{% url 'machine_cupb_list' %}"
                         }
                     })
                 }
             })
         })
+    </script>
+
+    <script>
+      $(document).ready(function () {
+            getIntproduct();
+        });
+
+        function getIntproduct() {
+            $.ajax({
+                type: "get",
+                dataType: "json",
+                url: "/api/macine_rooms_list/",
+                success: function (data) {
+                    var len = data.length;
+                    {#var myslect = document.getElementById("username");#}
+                    for (var i = 0; i < len; i++) {
+                        var option = document.createElement("option");
+                        $("#static_room_name").append(('<option value=' + data[i].name + '>' + data[i].name + '</option>'));
+                    }
+                },
+                error: function (data) {
+                    console.log(data);
+                }
+            });
+        }
     </script>
 {% endblock %}

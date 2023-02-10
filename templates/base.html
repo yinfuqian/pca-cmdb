@@ -47,7 +47,6 @@
                             <ul role="menu" class="dropdown-menu">
                                 <li><a href={% url 'cloud_cap_list' %}>云类型管理</a></li>
                                 <li><a href={% url 'cloud_servers_list' %}>服务器管理</a></li>
-                                <li><a href="">数据库管理</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -55,7 +54,7 @@
                                data-toggle="dropdown"> 硬件资产管理</a>
                             <ul role="menu" class="dropdown-menu">
                                 <li><a href="{% url 'machine_rooms_List' %}">机房</a></li>
-                                <li><a href="">机柜</a></li>
+                                <li><a href="{% url 'machine_cupb_list' %}">机柜</a></li>
                                 <li><a href="">网络</a></li>
                             </ul>
                         </li>
